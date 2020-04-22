@@ -1,0 +1,275 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+* {
+   Cbleu: #22a7f0;
+   Cgris: #f3f1ef;
+   Cred : #a40e0e;
+   Cgreen : #0f9d58ff;
+}
+
+
+.root{
+}
+
+
+.sidebar {
+	-fx-background-color: Cbleu;
+}
+
+.grey{
+	-fx-background-color: Cgris;
+}
+
+.red{
+	-fx-background-color: Cred;
+}
+
+
+.btn{
+	-fx-background-color: Cbleu;
+	-fx-text-fill : #FFF;
+        -fx-border-radius : 10;
+        -fx-background-radius : 10;
+
+}
+
+.btn:hover{
+	-fx-background-color: transparent;
+	-fx-text-fill : Cbleu;
+        -fx-border-radius : 10;
+        -fx-background-radius : 10;
+	-fx-border-color : Cbleu;
+	-fx-border-style : solid;
+	-fx-border-width : 3px;
+
+
+}
+.btn:pressed{
+	/* -fx-rotate : 10; */
+        -fx-translate-y: 3px;
+}
+
+.btnGrey{
+	-fx-background-color: Cbleu;
+	-fx-text-fill : Cgris;
+        -fx-border-color : Cgris;
+        -fx-border-radius : 30;
+        -fx-background-radius : 30;
+        -fx-border-width : 3px;
+
+}
+
+.btnGrey:hover{
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+
+
+}
+.btnGrey:pressed{
+
+        -fx-translate-y: 2px;
+}
+
+
+
+.btnRouge{
+	-fx-background-color: Cred;
+	-fx-text-fill : #FFF;
+        -fx-border-radius : 10;
+        -fx-background-radius : 10;
+        -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #800000 0%, #800000 100%),
+        Cred,
+        #cc0000,
+        radial-gradient(center 50% 50%, radius 100%, #cc0000, Cred);
+        -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+        -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+
+}
+
+.btnRouge:hover{
+      -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1), 15, 0, 0, 0);
+
+
+}
+.btnRouge:pressed{
+        -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+
+
+.btnNormal{
+    -fx-background-color: transparent;
+}
+.btnNormal:hover{
+    -fx-rotate : -10;
+}
+
+.text{}
+.text:hover{
+	-fx-text-fill : Cbleu;
+}
+
+
+.textRed{}
+.textRed:hover{
+	-fx-text-fill : #d83a3a;
+}
+
+
+.close-icon{}
+.fullScreen-icon{}
+.minimize-icon{}
+
+.topsize{
+    -fx-height: 18px;
+    -fx-width: 18px;
+}
+
+.board{
+    -fx-backround-image : url("/Ressource/board.png")
+}
+
+
+
+.player1{
+    -fx-background-color: Cred;
+	-fx-text-fill : #FFF;
+        -fx-border-radius : 10;
+        -fx-background-radius : 10;
+}
+
+.player2{
+    -fx-background-color: Cgreen;
+	-fx-text-fill : #FFF;
+        -fx-border-radius : 10;
+        -fx-background-radius : 10;
+}
+
+
+.cell{
+    -fx-font-size : 120px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial Black";
+    -fx-pref-height : 160px;
+    -fx-pref-width : 160px;
+    -fx-alignement : CENTER;
+
+}
+
+.record-sales {
+    -fx-font-family: 'EVER LOOSER UNTEXTURED';
+    -fx-font-size:21px;
+    -fx-text-fill: Cgris;
+    -fx-padding:-10 0 0 0;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 10;
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #a31313 0%, #901212 100%),
+        #9d2424,
+        #d83a3a,
+        radial-gradient(center 50% 50%, radius 100%, #d83a3a, #c52c2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+.record-sales:hover {
+    -fx-font-family: 'EVER LOOSER UNTEXTURED';
+    -fx-font-size:21px;
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #a31313 0%, #901212 100%),
+        #9d2424,
+        #d83a3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea4b4b, #c52c2c);
+}
+.record-sales:pressed {
+    -fx-font-family: 'EVER LOOSER UNTEXTURED';
+    -fx-font-size:21px;
+    -fx-padding: -5 0 -2 0;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+
+
+.record-blue {
+    -fx-text-fill: Cgris;
+    -fx-padding:-10 0 0 0;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 10;
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #147eb8 0%, #1786c2 100%),
+        #22a7f0,
+        #22a7f0,
+        radial-gradient(center 50% 50%, radius 100%, #22a7f0, #22a7f0);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+
+
+.record-blue:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #147eb8 0%, #1786c2 100%),
+        #22a7f0,
+        #22a7f0,
+        radial-gradient(center 50% 50%, radius 100%, #22a7f0, #22a7f0);
+}
+
+
+.record-blue:pressed {
+    -fx-padding: -5 0 -2 0;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+
+/* Styling the filled track */
+.jfx-slider > .colored-track {
+     -fx-background-color: #d83a3a;
+}
+
+/* Styling the slider thumb */
+.jfx-slider > .thumb {
+     -fx-background-color: #d83a3a;
+}
+
+/* Styling the animated thumb */
+.jfx-slider > .animated-thumb {
+     -fx-background-color: #d83a3a;
+}
+
+.jfx-radio-button {
+    -jfx-selected-color: #d83a3a
+}
+
+@font-face{
+    src: url('/EVER_LOOSER_UNTEXTURED.ttf'); 
+}
+
+.text_police{
+    -fx-font-family: 'EVER LOOSER'
+}
+
+.titre_color{
+    -fx-font-family: 'EVER LOOSER UNTEXTURED';
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #a31313 0%, #901212 100%),
+        #9d2424,
+        #d83a3a,
+        radial-gradient(center 50% 50%, radius 100%, #d83a3a, #c52c2c);
+}
+/*
+
+.record-sales {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+.record-sales:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.record-sales:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+*/

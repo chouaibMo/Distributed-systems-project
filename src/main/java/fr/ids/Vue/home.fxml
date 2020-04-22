@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="650.0" style="-fx-background-color: #3d3d3D;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ids.Controller.homeController">
+   <children>
+      <ImageView fitHeight="750.0" fitWidth="650.0" layoutY="1.0" pickOnBounds="true">
+         <image>
+            <Image url="@../Resources/Images/wall.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="187.0" layoutY="38.0" prefHeight="112.0" prefWidth="276.0" styleClass="text_police" text="Welcome to" textFill="#d83a3a">
+         <font>
+            <Font name="EVER LOOSER UNTEXTURED" size="60.0" />
+         </font>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" spread="0.75" />
+         </effect>
+      </Label>
+      <Label alignment="CENTER" layoutX="2.0" layoutY="57.0" prefHeight="325.0" prefWidth="650.0" styleClass="text_police" text="IDS Game" textFill="#d83a3a">
+         <font>
+            <Font name="EVER LOOSER UNTEXTURED" size="160.0" />
+         </font>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" spread="0.75" />
+         </effect>
+      </Label>
+      <Label alignment="CENTER" layoutX="106.0" layoutY="404.0" prefHeight="123.0" prefWidth="439.0" styleClass="text_police" text="Please choose a name" textFill="#f3f1ef">
+         <font>
+            <Font name="EVER LOOSER UNTEXTURED" size="54.0" />
+         </font>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" spread="0.75" />
+         </effect>
+      </Label>
+      <TextField fx:id="playerName" alignment="CENTER" focusTraversable="false" layoutX="170.0" layoutY="520.0" onKeyPressed="#playerNameOnKeyPressed" prefHeight="51.0" prefWidth="310.0" promptText="Player name">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Button fx:id="continueBtn" alignment="BASELINE_CENTER" layoutX="221.0" layoutY="639.0" mnemonicParsing="false" onAction="#continueOnAction" prefHeight="65.0" prefWidth="209.0" style="-fx-font-size: 30;" styleClass="record-sales" text="Continue">
+         <font>
+            <Font size="23.0" />
+         </font></Button>
+   </children>
+</AnchorPane>
