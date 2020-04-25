@@ -35,7 +35,12 @@ public class Client implements AutoCloseable{
      */
     public Client(){
         this.factory = new ConnectionFactory();
-        this.factory.setHost(Queues.HOST);
+        //this.factory.setHost(Queues.HOST);
+        try{
+            this.factory.setUri("amqp://cjgpefjw:97sGX0az9f63oY0jdO8FNbQgTOlSgqOe@chinook.rmq.cloudamqp.com/cjgpefjw");
+        }catch(Exception e){
+            System.out.println("Client constructor : "+e);
+        }
     }
     
     /**
@@ -120,7 +125,7 @@ public class Client implements AutoCloseable{
             channel.queueDeclare(this.clientQueue, false, false, false, null);
             
             channel.queuePurge(this.clientQueue);
-
+             /*
             //Callback declaration :
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 Message msg = SerializationUtils.deserialize(delivery.getBody());
@@ -131,6 +136,7 @@ public class Client implements AutoCloseable{
 
             //Callback starting : 
             channel.basicConsume(this.clientQueue, true, deliverCallback, consumerTag -> { });
+            */
         }
         catch(Exception e){
             System.out.println(e);

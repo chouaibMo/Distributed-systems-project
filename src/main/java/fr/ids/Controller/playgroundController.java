@@ -5,14 +5,18 @@
  */
 package fr.ids.Controller;
 
+import com.rabbitmq.client.DeliverCallback;
 import fr.ids.Application.main;
 import fr.ids.Network.Client;
 import static fr.ids.Controller.homeController.media;
 import fr.ids.Network.Message;
 import fr.ids.Network.Queues;
+import fr.ids.Vue.Images;
         
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,12 +32,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.apache.commons.lang3.SerializationUtils;
 
 /**
  *
@@ -65,16 +69,16 @@ public class playgroundController implements Initializable{
     private ImageView gif;
     
     // IMAGES : 
-    private static Image up;
-    private static Image down;
-    private static Image right;
-    private static Image left;
+    //private static Image up;
+    //private static Image down;
+    //private static Image right;
+    //private static Image left;
     
     // COORDINATES : 
     private int x;
     private int y;
     
-    // PLAYER : 
+    // REF. TO CLIENT PLAYER : 
     private ImageView player;
 
     
@@ -110,12 +114,14 @@ public class playgroundController implements Initializable{
         player2.setVisible(false);
         player3.setVisible(false);
         player4.setVisible(false);
-        
+    /*    
         up    = new Image("/fr/ids/Resources/Images/p"+Client.getClient().getID()+"-U.png");
         down  = new Image("/fr/ids/Resources/Images/p"+Client.getClient().getID()+"-D.png");
         right = new Image("/fr/ids/Resources/Images/p"+Client.getClient().getID()+"-R.png");
         left  = new Image("/fr/ids/Resources/Images/p"+Client.getClient().getID()+"-L.png");
-        player.setImage(down);
+    */
+    
+        player.setImage(Images.getImage(Client.getClient().getID(), "DOWN"));
         player.setVisible(true);
         setLayouts(player,x,y);
         
@@ -129,6 +135,20 @@ public class playgroundController implements Initializable{
                 gif.setVisible(false);
             })
         );
+        
+        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+                Message msg = SerializationUtils.deserialize(delivery.getBody());
+                updateLayouts(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY());
+                System.out.println("[ FROM "+Client.getClient().getNodeQueue()+" ] --> "+msg);
+        };
+        
+        try {
+            Client.getClient().startConsuming(deliverCallback);
+            Message m = new Message(Client.getClient().getID(),Client.getClient().getClientQueue(), this.x, this.y);
+            Client.getClient().sendMessage(m);
+        } catch (Exception ex) {
+            Logger.getLogger(playgroundController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -196,7 +216,7 @@ public class playgroundController implements Initializable{
         
         switch(direction){
             case "UP":
-                player.setImage(up);
+                player.setImage(Images.getImage(id, direction));
                 if(this.x>0 && Map.isFree(this.x-1,this.y)){
                     if(Map.isChangeZone(this.x, this.y, direction))
                         Client.getClient().setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x-1, this.y)));
@@ -207,7 +227,7 @@ public class playgroundController implements Initializable{
                 }
                 break;
             case "DOWN":
-                player.setImage(down);
+                player.setImage(Images.getImage(id, direction));
                 if(this.x<11 && Map.isFree(this.x+1,this.y)){
                     if(Map.isChangeZone(this.x, this.y, direction))
                         Client.getClient().setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x+1, this.y)));
@@ -218,7 +238,7 @@ public class playgroundController implements Initializable{
                 }
                 break;
             case "RIGHT":
-                player.setImage(right);
+                player.setImage(Images.getImage(id, direction));
                 if(this.y<11 && Map.isFree(this.x,this.y+1)){
                     if(Map.isChangeZone(this.x, this.y, direction))
                         Client.getClient().setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x, this.y+1)));
@@ -229,7 +249,7 @@ public class playgroundController implements Initializable{
                 }
                 break;
             case "LEFT":
-                player.setImage(left);
+                player.setImage(Images.getImage(id, direction));
                 if(this.y>0 && Map.isFree(this.x,this.y-1)){
                     if(Map.isChangeZone(this.x, this.y, direction))
                         Client.getClient().setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x, this.y-1)));
@@ -266,9 +286,40 @@ public class playgroundController implements Initializable{
     public void setLayouts(ImageView img, int i, int j){
         img.setLayoutX(j*46.5);
         img.setLayoutY(i*46.5);
-        this.x = i;
-        this.y = j;
+        if(img.equals(player)){
+            this.x = i;
+            this.y = j;
+        }
+            
     }
     
 
+    public void updateLayouts(int id, int i, int j){
+        switch(id){
+            case 1:
+                if(!player1.isVisible())
+                    player1.setVisible(true);
+                setLayouts(player1,i,j);
+                //player1.setImage(Images.getImage(id, direction));
+                break;
+            case 2:
+                if(!player2.isVisible())
+                    player2.setVisible(true);
+                setLayouts(player2,i,j);
+                //player2.setImage(Images.getImage(id, direction));
+                break;
+            case 3:
+                if(!player3.isVisible())
+                    player3.setVisible(true);
+                setLayouts(player3,i,j);
+                //player3.setImage(Images.getImage(id, direction));
+                break;
+            case 4:
+                if(!player4.isVisible())
+                    player4.setVisible(true);
+                setLayouts(player4,i,j);
+                //player4.setImage(Images.getImage(id, direction));
+                break;
+        }
+    }
 }

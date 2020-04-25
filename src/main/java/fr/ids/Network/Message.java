@@ -17,6 +17,7 @@ public class Message implements Serializable{
     private int playerX;
     private int playerY;
     private String senderQueue;
+    private String direction;
     
     
     /**
@@ -31,8 +32,30 @@ public class Message implements Serializable{
         this.playerX = x;
         this.playerY = y;
     }
+    
+        
+    /**
+     * Message contructor
+     * @param id an integer : player ID
+     * @param x an integer : x coordinate
+     * @param y an integer : y coordinate
+     */
+    public Message(int id, String sender, int x, int y, String direction){ 
+        this.playerID = id;
+        this.senderQueue = sender;
+        this.direction = direction;
+        this.playerX = x;
+        this.playerY = y;
+    }
 
-     
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }

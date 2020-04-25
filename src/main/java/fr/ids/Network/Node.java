@@ -26,9 +26,10 @@ public class Node {
     private String nextNodeQueue;
 
 
-    public Node(int id) throws IOException, TimeoutException, Exception{
+    public Node(int id) throws Exception{
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(Queues.HOST);
+        //factory.setHost(Queues.HOST);
+        factory.setUri("amqp://cjgpefjw:97sGX0az9f63oY0jdO8FNbQgTOlSgqOe@chinook.rmq.cloudamqp.com/cjgpefjw");
         
         this.connection = factory.newConnection();
         this.channel = connection.createChannel();
