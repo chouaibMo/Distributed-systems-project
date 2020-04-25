@@ -43,6 +43,11 @@
                         <Image url="@../Resources/Images/p1-D.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="gif" fitHeight="40.0" fitWidth="40.0" layoutX="-3.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../Resources/Images/explosion.gif" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="1.0" layoutY="648.0" prefHeight="101.0" prefWidth="650.0">

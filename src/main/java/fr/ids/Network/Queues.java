@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.ids.Server;
+package fr.ids.Network;
 
 /**
  *
@@ -11,7 +11,7 @@ package fr.ids.Server;
  */
 public class Queues {
     //nodes number
-    public static int NB_NODES = 4;
+    public static int NB_NODES = 2;
     // Host name
     public static String HOST = "localhost";
     
@@ -71,33 +71,6 @@ public class Queues {
         String queue;
         switch(id){
             case 1:
-                queue = P1_QUEUE;
-                break;
-            case 2:
-                queue = P2_QUEUE;
-                break;
-            case 3:
-                queue = P3_QUEUE;
-                break;
-            case 4:
-                queue = P4_QUEUE;
-                break;   
-            default:
-                throw new Exception("node id is not valid");
-        }
-        return queue;
-    }
-    
-   /**
-     * This method is used to get the queue associated to a client
-     * @param id client identifier
-     * @return the name of the queue associated to the client
-     * @throws Exception if the client identifier is not valid
-     */
-    public static String getClientQueue(int id) throws Exception {
-        String queue;
-        switch(id){
-            case 1:
                 queue = N1_QUEUE;
                 break;
             case 2:
@@ -108,6 +81,33 @@ public class Queues {
                 break;
             case 4:
                 queue = N4_QUEUE;
+                break;   
+            default:
+                throw new Exception("node id is not valid");
+        }
+        return queue;
+    }
+    
+   /**
+     * This method is used to get the of the queue associated to a client
+     * @param id client identifier
+     * @return the name of the queue associated to the client
+     * @throws Exception if the client identifier is not valid
+     */
+    public static String getClientQueue(int id) throws Exception {
+        String queue;
+        switch(id){
+            case 1:
+                queue = P1_QUEUE;
+                break;
+            case 2:
+                queue = P2_QUEUE;
+                break;
+            case 3:
+                queue = P3_QUEUE;
+                break;
+            case 4:
+                queue = P4_QUEUE;
                 break;   
             default:
                 throw new Exception("node id is not valid");

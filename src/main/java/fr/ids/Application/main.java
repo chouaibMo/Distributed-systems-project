@@ -5,6 +5,7 @@
  */
 package fr.ids.Application;
 
+import fr.ids.Network.Client;
 import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -18,8 +19,9 @@ import javafx.stage.Stage;
 public class main extends Application {
     
         private static Stage primaryStage;
-	@Override
+        private static int ID;
         
+	@Override
 	public void start(Stage stage) {
                 primaryStage = stage;
 		try {   
@@ -43,7 +45,22 @@ public class main extends Application {
             return primaryStage; 
         }
         
+        public static int getArgs(){
+            return ID;
+        }
+        
 	public static void main(String[] args) {
+                if(args.length != 1){
+                    System.out.println("usage : java -jar <jarname>.jar <userID> ");
+                    System.exit(0);
+                }
+                ID = Integer.parseInt(args[0]);
 		launch(args);
 	}
+        
+        @Override
+        public void stop() throws Exception{
+            if(Client.getClient() != null)
+                Client.getClient().close();
+        }
 }

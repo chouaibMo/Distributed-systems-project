@@ -17,14 +17,20 @@
     </properties>
     
     <dependencies>
-            <!-- JUnit -->
+            <!--  SerializationUtils  -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.10</version>
+            </dependency>
+            <!--  JUnit  -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.13</version>
                 <scope>test</scope>
             </dependency>
-            <!-- RabbitMQ -->
+            <!--  RabbitMQ  -->
             <dependency>
                 <groupId>com.rabbitmq</groupId>
                 <artifactId>amqp-client</artifactId>
@@ -36,57 +42,6 @@
                 <version>1.7.26</version>
             </dependency> 
     </dependencies>
-<!--   
-    <build>
-        <resources>
-            <resource>
-              <directory>src/main/java</directory>
-              <includes>
-                <include>**/*.*</include>
-              </includes>
-            </resource>
-        </resources>
-        
-        <plugins>
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.3</version>
-                <executions>
-                  <execution>
-                    <id>GUI</id>
-                    <goals>
-                      <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                      <shadedArtifactAttached>true</shadedArtifactAttached>
-                      <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                          <mainClass>fr.ids.Application.SuperMain</mainClass>
-                        </transformer>
-                      </transformers>
-                    </configuration>
-                  </execution>
-                  <execution>
-                    <id>NODE</id>
-                    <goals>
-                      <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                      <shadedArtifactAttached>true</shadedArtifactAttached>
-                      <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                          <mainClass>fr.ids.Server.Node</mainClass>
-                        </transformer>
-                      </transformers>
-                    </configuration>
-                  </execution>
-                </executions>
-              </plugin>
-        </plugins> 
-    </build>
--->
     
     <build>
         <resources>
@@ -128,7 +83,7 @@
                     <configuration>
                       <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">                        
-                          <mainClass>fr.ids.Server.Node</mainClass>
+                          <mainClass>fr.ids.Network.Node</mainClass>
                         </transformer>
                       </transformers>
                       <finalName>NODE</finalName>

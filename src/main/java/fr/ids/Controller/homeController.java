@@ -5,6 +5,7 @@
  */
 package fr.ids.Controller;
 
+import fr.ids.Application.main;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,7 +43,6 @@ public class homeController implements Initializable {
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        
     }
 
     @FXML
