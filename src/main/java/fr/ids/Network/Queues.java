@@ -11,7 +11,7 @@ package fr.ids.Network;
  */
 public class Queues {
     //nodes number
-    public static int NB_NODES = 4;
+    public static int NB_NODES = 2;
     // Host name
     public static String HOST = "localhost";
     

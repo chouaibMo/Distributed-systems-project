@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressed" prefHeight="750.0" prefWidth="650.0" style="-fx-background-color: #3d3d3D;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ids.Controller.playgroundController">
+<AnchorPane fx:id="rootPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressed" prefHeight="750.0" prefWidth="650.0" style="-fx-background-color: #3d3d3D;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ids.Controller.playgroundController">
    <children>
       <AnchorPane fx:id="componentsPane" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -82,22 +82,22 @@
                         <Image url="@../Resources/Images/p3-D.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="65.0" layoutY="6.0" styleClass="text_police" text="Player 1 name" textFill="#f3f1ef">
+                  <Label fx:id="name4" layoutX="65.0" layoutY="6.0" styleClass="text_police" textFill="#f3f1ef">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="65.0" layoutY="55.0" styleClass="text_police" text="Player 2 name" textFill="#f3f1ef">
+                  <Label fx:id="name1" layoutX="65.0" layoutY="55.0" styleClass="text_police" textFill="#f3f1ef">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="300.0" layoutY="6.0" styleClass="text_police" text="Player 3 name" textFill="#f3f1ef">
+                  <Label fx:id="name2" layoutX="300.0" layoutY="6.0" styleClass="text_police" textFill="#f3f1ef">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="300.0" layoutY="55.0" styleClass="text_police" text="Player 4 name" textFill="#f3f1ef">
+                  <Label fx:id="name3" layoutX="300.0" layoutY="55.0" styleClass="text_police" textFill="#f3f1ef">
                      <font>
                         <Font size="20.0" />
                      </font>

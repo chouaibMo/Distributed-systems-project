@@ -16,6 +16,7 @@ public class Message implements Serializable{
     private int playerID;
     private int playerX;
     private int playerY;
+    private String name;
     private String senderQueue;
     private String direction;
     
@@ -23,16 +24,19 @@ public class Message implements Serializable{
     /**
      * Message contructor
      * @param id an integer : player ID
+     * @param queue a String : player Queue
+     * @param name a String : player name 
      * @param x an integer : x coordinate
      * @param y an integer : y coordinate
      */
-    public Message(int id, String sender, int x, int y){ 
+  /*  public Message(int id, String queue, String name, int x, int y){ 
         this.playerID = id;
-        this.senderQueue = sender;
+        this.senderQueue = queue;
         this.playerX = x;
         this.playerY = y;
+        this.name = name;
     }
-    
+    */
         
     /**
      * Message contructor
@@ -40,14 +44,25 @@ public class Message implements Serializable{
      * @param x an integer : x coordinate
      * @param y an integer : y coordinate
      */
-    public Message(int id, String sender, int x, int y, String direction){ 
+    public Message(int id, String sender, String name, int x, int y, String direction){ 
         this.playerID = id;
         this.senderQueue = sender;
+        this.name = name;
         this.direction = direction;
         this.playerX = x;
         this.playerY = y;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
+    
     public String getDirection() {
         return direction;
     }
