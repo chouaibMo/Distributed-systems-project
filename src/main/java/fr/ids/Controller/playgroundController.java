@@ -12,15 +12,12 @@ import static fr.ids.Controller.homeController.media;
 import static fr.ids.Controller.homeController.name;
 import fr.ids.Network.Message;
 import fr.ids.Network.Queues;
-import fr.ids.Vue.Images;
         
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,23 +77,25 @@ public class playgroundController implements Initializable{
     @FXML
     private ImageView gif;
     
+    // CLIENT :
+    private Client client;
+    
     // COORDINATES : 
     private int x;
     private int y;
     
     // REF. TO CLIENT PLAYER : 
     private ImageView player;
-    private Label playerName;
-    
-    //TIMELINE
-    Timeline timeline;
+
 
    @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        Client.getClient().setID(main.getArgs());
-        Client.getClient().setUsername(homeController.name);
-        Client.getClient().setUp();
-        switch(Client.getClient().getID()){
+        this.client = Client.getClient();
+        this.client.setID(main.getArgs());
+        this.client.setUsername(homeController.name);
+        this.client.setUp();
+        
+        switch(client.getID()){
             case 1:
                 x=0; y=0;
                 player = player1;
@@ -124,35 +123,23 @@ public class playgroundController implements Initializable{
         player3.setVisible(false);
         player4.setVisible(false);
     
-        player.setImage(Images.getImage(Client.getClient().getID(), "DOWN"));
+        player.setImage(Images.getImage(client.getID(), "DOWN"));
         player.setVisible(true);
         setLayouts(player,x,y);
         
-        timeline = new Timeline(
-            new KeyFrame(Duration.ZERO, e -> { 
-                gif.setVisible(true);
-                gif.setLayoutX(player.getLayoutX());
-                gif.setLayoutY(player.getLayoutY()-1);
-            }),
-            new KeyFrame(Duration.seconds(0.5), e -> { 
-                gif.setVisible(false);
-            })
-        );
-        
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 Message msg = SerializationUtils.deserialize(delivery.getBody());
-                Platform.runLater( () -> {
-                    updateLayouts(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY());
-                    updateImage(msg.getPlayerID(), msg.getDirection());
-                    updateName(msg.getPlayerID(), msg.getName());
-                });
-                System.out.println("[ FROM "+Client.getClient().getNodeQueue()+" ] --> "+msg);
+                    updateLayouts(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), msg.getDirection());
+                    Platform.runLater( () -> {
+                        updateName(msg.getPlayerID(), msg.getName());
+                    });
+                System.out.println("[ FROM "+client.getNodeQueue()+" ] --> "+msg);
         };
         
         try {
-            Client.getClient().startConsuming(deliverCallback);
-            Message m = new Message(Client.getClient().getID(),Client.getClient().getClientQueue(),name, this.x, this.y,"DOWN");
-            Client.getClient().sendMessage(m);
+            client.startConsuming(deliverCallback);
+            Message m = new Message(client.getID(), client.getClientQueue(), name, this.x, this.y,"DOWN");
+            client.sendMessage(m);
         } catch (Exception ex) {
             Logger.getLogger(playgroundController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -160,9 +147,7 @@ public class playgroundController implements Initializable{
 
     @FXML
     private void keyPressed(KeyEvent event) throws Exception {
-        makeMovement(player,event.getCode().toString()); 
-        if(this.x ==4 && this.y == 4)
-            timeline.play();
+        makeMovement(player,event.getCode().toString());  
     }
 
     @FXML
@@ -206,8 +191,7 @@ public class playgroundController implements Initializable{
         componentsPane.setEffect(null);
         helpPane.setVisible(false);
     }
-    
-    
+     
     /**
      * 
      * @param player an ImageView
@@ -218,17 +202,18 @@ public class playgroundController implements Initializable{
         double x = player.getLayoutX();
         double y = player.getLayoutY();
         
-        int id = Client.getClient().getID();
-        String queue = Client.getClient().getClientQueue(); 
+        int id = client.getID();
+        String queue = client.getClientQueue(); 
         
         switch(direction){
             case "UP":
                 player.setImage(Images.getImage(id, direction));
                 if(this.x>0 && Map.isFree(this.x-1,this.y)){
-                    if(Map.isChangeZone(this.x, this.y, direction))
-                        Client.getClient().setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x-1, this.y)));
+                    if(Map.isChangeZone(this.x, this.y, direction)){
+                        client.setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x-1, this.y)));
+                    }
                     Message m = new Message(id, queue, homeController.name, this.x-1, this.y,direction);
-                    Client.getClient().sendMessage(m);
+                    client.sendMessage(m);
                     player.setLayoutY(y-46.5);
                     this.x--;
                 }
@@ -236,10 +221,11 @@ public class playgroundController implements Initializable{
             case "DOWN":
                 player.setImage(Images.getImage(id, direction));
                 if(this.x<11 && Map.isFree(this.x+1,this.y)){
-                    if(Map.isChangeZone(this.x, this.y, direction))
-                        Client.getClient().setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x+1, this.y)));
+                    if(Map.isChangeZone(this.x, this.y, direction)){
+                        client.setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x+1, this.y)));
+                    }
                     Message m = new Message(id, queue, homeController.name, this.x+1, this.y,direction);
-                    Client.getClient().sendMessage(m);
+                    client.sendMessage(m);
                     player.setLayoutY(y+46.5);
                     this.x++;
                 }
@@ -247,10 +233,11 @@ public class playgroundController implements Initializable{
             case "RIGHT":
                 player.setImage(Images.getImage(id, direction));
                 if(this.y<11 && Map.isFree(this.x,this.y+1)){
-                    if(Map.isChangeZone(this.x, this.y, direction))
-                        Client.getClient().setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x, this.y+1)));
+                    if(Map.isChangeZone(this.x, this.y, direction)){
+                        client.setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x, this.y+1)));
+                    }
                     Message m = new Message(id, queue, homeController.name, this.x, this.y+1,direction);
-                    Client.getClient().sendMessage(m);
+                    client.sendMessage(m);
                     player.setLayoutX(x+46.5);
                     this.y++;
                 }
@@ -258,10 +245,11 @@ public class playgroundController implements Initializable{
             case "LEFT":
                 player.setImage(Images.getImage(id, direction));
                 if(this.y>0 && Map.isFree(this.x,this.y-1)){
-                    if(Map.isChangeZone(this.x, this.y, direction))
-                        Client.getClient().setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x, this.y-1)));
+                    if(Map.isChangeZone(this.x, this.y, direction)){
+                        client.setNodeQueue(Queues.getPublicQueue(Map.getZone(this.x, this.y-1)));
+                    }
                     Message m = new Message(id, queue, homeController.name, this.x, this.y-1, direction);
-                    Client.getClient().sendMessage(m);
+                    client.sendMessage(m);
                     player.setLayoutX(x-46.5);
                     this.y--;
                 }
@@ -317,31 +305,27 @@ public class playgroundController implements Initializable{
         }
     }
 
-    public void updateLayouts(int id, int i, int j){
+    public void updateLayouts(int id, int i, int j, String move){
         switch(id){
             case 1:
                 if(!player1.isVisible())
                     player1.setVisible(true);
                 setLayouts(player1,i,j);
-                //player1.setImage(Images.getImage(id, direction));
                 break;
             case 2:
                 if(!player2.isVisible())
                     player2.setVisible(true);
                 setLayouts(player2,i,j);
-                //player2.setImage(Images.getImage(id, direction));
                 break;
             case 3:
                 if(!player3.isVisible())
                     player3.setVisible(true);
                 setLayouts(player3,i,j);
-                //player3.setImage(Images.getImage(id, direction));
                 break;
             case 4:
                 if(!player4.isVisible())
                     player4.setVisible(true);
                 setLayouts(player4,i,j);
-                //player4.setImage(Images.getImage(id, direction));
                 break;
         }
     }

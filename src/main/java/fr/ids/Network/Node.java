@@ -8,7 +8,6 @@ import com.rabbitmq.client.*;
 import fr.ids.Controller.Map;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeoutException;
 import org.apache.commons.lang3.SerializationUtils;
 
 /**
@@ -49,9 +48,8 @@ public class Node {
         
         //Client message callback declaration :
         DeliverCallback deliverCallbackClient = (consumerTag, delivery) -> {
-            //deserialization of the message :
             Message msg = SerializationUtils.deserialize(delivery.getBody());
-            System.out.println("[ FROM CLIENT"+msg.getPlayerID()+" ] --> "+msg);
+            //System.out.println("[ NODE "+nodeID+" FROM CLIENT "+msg.getPlayerID()+" ] --> "+msg);
             
             //updating clients managed by the node :
             if(!clientQueues.contains(msg.getSenderQueue()))
@@ -60,6 +58,7 @@ public class Node {
             else if( this.nodeID != Map.getZone(msg.getPlayerX(),msg.getPlayerY()) )
                 clientQueues.remove(msg.getSenderQueue());
             
+            System.out.println("[ NODE "+nodeID+" CLIENTS ] --> "+clientQueues);
             //Notify other clients :
             publishToClients(msg);
             
@@ -73,9 +72,13 @@ public class Node {
             NodeMessage nodemsg = SerializationUtils.deserialize(delivery.getBody());
             Message msg= nodemsg.getMessage();
             if(nodemsg.getSourceNode() != this.nodeID){
-                System.out.println("[ FROM NODE"+nodemsg.getSourceNode()+" ] --> "+msg);
+                //System.out.println("[ NODE "+nodeID+" FROM NODE "+nodemsg.getSourceNode()+"   ] --> "+msg);
                 if( this.nodeID == Map.getZone(msg.getPlayerX(), msg.getPlayerY()) )
                     clientQueues.add(msg.getSenderQueue());
+                else if( this.nodeID != Map.getZone(msg.getPlayerX(),msg.getPlayerY()) )
+                    clientQueues.remove(msg.getSenderQueue());
+                
+                System.out.println("[ NODE "+nodeID+" CLIENTS ] --> "+clientQueues);
                 publishToClients(msg);
                 channel.basicPublish("", this.nextNodeQueue, null, SerializationUtils.serialize(nodemsg));
             }

@@ -60,8 +60,6 @@ public class Message implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-
-    
     
     public String getDirection() {
         return direction;
@@ -105,6 +103,6 @@ public class Message implements Serializable{
    
     @Override
     public String toString(){
-        return "Player no."+this.playerID+" : ("+this.playerX+";"+this.playerY+")";
+        return "Player no."+this.playerID+" : "+this.direction+" ("+this.playerX+";"+this.playerY+")";
     }
 }

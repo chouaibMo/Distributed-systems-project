@@ -41,7 +41,9 @@ public class Client implements AutoCloseable{
         }catch(Exception e){
             System.out.println("Client constructor : "+e);
         }
+    
     }
+        
     
     /**
      * This methode is used to get a Client object (singleton)

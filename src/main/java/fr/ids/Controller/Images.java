@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.ids.Vue;
+package fr.ids.Controller;
 
 import fr.ids.Network.Client;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 /**
  *
@@ -64,6 +68,22 @@ public class Images {
                 break;
         }
         return img;
+    }
+    
+    public static Timeline explosionTimeline(ImageView player, ImageView gif){
+                
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, e -> { 
+                    gif.setVisible(true);
+                    gif.setLayoutX(player.getLayoutX());
+                    gif.setLayoutY(player.getLayoutY()-1);
+                }),
+                new KeyFrame(Duration.seconds(0.5), e -> { 
+                    gif.setVisible(false);
+                })
+        );
+        
+        return timeline;
     }
 
 }
