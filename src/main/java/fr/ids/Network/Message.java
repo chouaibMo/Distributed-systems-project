@@ -39,14 +39,17 @@ public class Message implements Serializable{
     */
         
     /**
-     * Message contructor
-     * @param id an integer : player ID
-     * @param x an integer : x coordinate
-     * @param y an integer : y coordinate
+     * Create a new Message instance
+     * @param id the player ID
+     * @param queue the queue name of the player 
+     * @param x the x position of the player
+     * @param name the player name
+     * @param y the y position of the player
+     * @param direction the movement performed by the player
      */
-    public Message(int id, String sender, String name, int x, int y, String direction){ 
+    public Message(int id, String queue, String name, int x, int y, String direction){ 
         this.playerID = id;
-        this.senderQueue = sender;
+        this.senderQueue = queue;
         this.name = name;
         this.direction = direction;
         this.playerX = x;

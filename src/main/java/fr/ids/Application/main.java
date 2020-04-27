@@ -49,18 +49,14 @@ public class main extends Application {
             return ID;
         }
         
-	public static void main(String[] args) {
-                if(args.length != 1){
-                    System.out.println("usage : java -jar <jarname>.jar <userID> ");
-                    System.exit(0);
-                }
-                ID = Integer.parseInt(args[0]);
-		launch(args);
-	}
-        
         @Override
         public void stop() throws Exception{
             if(Client.getClient() != null)
                 Client.getClient().close();
         }
+        
+	public static void main(String[] args) {
+                ID = Integer.parseInt(args[0]);
+		launch(args);
+	}
 }

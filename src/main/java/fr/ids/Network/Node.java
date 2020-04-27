@@ -28,7 +28,7 @@ public class Node {
     public Node(int id) throws Exception{
         ConnectionFactory factory = new ConnectionFactory();
         //factory.setHost(Queues.HOST);
-        factory.setUri("amqp://cjgpefjw:97sGX0az9f63oY0jdO8FNbQgTOlSgqOe@chinook.rmq.cloudamqp.com/cjgpefjw");
+        factory.setUri(Queues.URI);
         
         this.connection = factory.newConnection();
         this.channel = connection.createChannel();
@@ -49,7 +49,7 @@ public class Node {
         //Client message callback declaration :
         DeliverCallback deliverCallbackClient = (consumerTag, delivery) -> {
             Message msg = SerializationUtils.deserialize(delivery.getBody());
-            //System.out.println("[ NODE "+nodeID+" FROM CLIENT "+msg.getPlayerID()+" ] --> "+msg);
+            System.out.println("[ NODE "+nodeID+" : FROM CLIENT "+msg.getPlayerID()+" ] --> "+msg);
             
             //updating clients managed by the node :
             if(!clientQueues.contains(msg.getSenderQueue()))
@@ -58,12 +58,13 @@ public class Node {
             else if( this.nodeID != Map.getZone(msg.getPlayerX(),msg.getPlayerY()) )
                 clientQueues.remove(msg.getSenderQueue());
             
-            System.out.println("[ NODE "+nodeID+" CLIENTS ] --> "+clientQueues);
+            //System.out.println("[ NODE "+nodeID+" CLIENTS ] --> "+clientQueues);
+            
             //Notify other clients :
             publishToClients(msg);
             
             //Notify other nodes  : 
-            NodeMessage nodemsg = new NodeMessage(this.nodeID, "all", msg);
+            NodeMessage nodemsg = new NodeMessage(this.nodeID, msg);
             channel.basicPublish("", this.nextNodeQueue, null, SerializationUtils.serialize(nodemsg));
         };
         
@@ -72,13 +73,13 @@ public class Node {
             NodeMessage nodemsg = SerializationUtils.deserialize(delivery.getBody());
             Message msg= nodemsg.getMessage();
             if(nodemsg.getSourceNode() != this.nodeID){
-                //System.out.println("[ NODE "+nodeID+" FROM NODE "+nodemsg.getSourceNode()+"   ] --> "+msg);
+                System.out.println("[ NODE "+nodeID+" : FROM NODE "+nodemsg.getSourceNode()+" ] --> "+msg);
                 if( this.nodeID == Map.getZone(msg.getPlayerX(), msg.getPlayerY()) )
                     clientQueues.add(msg.getSenderQueue());
                 else if( this.nodeID != Map.getZone(msg.getPlayerX(),msg.getPlayerY()) )
                     clientQueues.remove(msg.getSenderQueue());
                 
-                System.out.println("[ NODE "+nodeID+" CLIENTS ] --> "+clientQueues);
+                //System.out.println("[ NODE "+nodeID+" CLIENTS ] --> "+clientQueues);
                 publishToClients(msg);
                 channel.basicPublish("", this.nextNodeQueue, null, SerializationUtils.serialize(nodemsg));
             }

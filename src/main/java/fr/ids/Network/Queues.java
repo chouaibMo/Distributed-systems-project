@@ -12,8 +12,12 @@ package fr.ids.Network;
 public class Queues {
     //nodes number
     public static int NB_NODES = 4;
+    
     // Host name
     public static String HOST = "localhost";
+    
+    //Uri name
+    public static String URI = "amqp://cjgpefjw:97sGX0az9f63oY0jdO8FNbQgTOlSgqOe@chinook.rmq.cloudamqp.com/cjgpefjw";
     
     // Player's queue names
     public static String P1_QUEUE = "player1_queue";

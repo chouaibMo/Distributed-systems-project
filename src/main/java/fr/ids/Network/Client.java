@@ -37,18 +37,13 @@ public class Client implements AutoCloseable{
         this.factory = new ConnectionFactory();
         //this.factory.setHost(Queues.HOST);
         try{
-            this.factory.setUri("amqp://cjgpefjw:97sGX0az9f63oY0jdO8FNbQgTOlSgqOe@chinook.rmq.cloudamqp.com/cjgpefjw");
+            this.factory.setUri(Queues.URI);
         }catch(Exception e){
             System.out.println("Client constructor : "+e);
         }
     
     }
         
-    
-    /**
-     * This methode is used to get a Client object (singleton)
-     * @return a Client object
-     */
     public static Client getClient(){
         return INSTANCE;
     }
@@ -87,23 +82,12 @@ public class Client implements AutoCloseable{
     
     public String getUsername(){
         return this.username;
-    }
-    
-    
-    /**
-     * This method is used to send a message to a specific queue
-     * @param message a String
-     * @param queueName a String
-     * @throws Exception 
-     */
-    public void sendMessage(Message message, String queueName) throws Exception {
-        this.channel.basicPublish("", queueName, null, SerializationUtils.serialize(message));
-    }
-    
+    } 
     
     /**
-     * This Method is used to send a message to the node connected to this client
-     * @param message a String
+     * This Method is used to send a message to the node managing the 
+     * zone where the player is.
+     * @param message the Message object to send 
      * @throws Exception 
      */
     public void sendMessage(Message message) throws Exception {
@@ -112,7 +96,7 @@ public class Client implements AutoCloseable{
     
    
     /**
-     * This method is used to set up 
+     * This method is used to set up the connection, channel, and declare que client queues.
      */
     public void setUp(){
         try{
@@ -127,28 +111,16 @@ public class Client implements AutoCloseable{
             channel.queueDeclare(this.clientQueue, false, false, false, null);
             
             channel.queuePurge(this.clientQueue);
-             /*
-            //Callback declaration :
-            DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-                Message msg = SerializationUtils.deserialize(delivery.getBody());
-                
-                System.out.println("[ FROM "+this.nodeQueue+" ] --> "+msg);
-            };
-        
-
-            //Callback starting : 
-            channel.basicConsume(this.clientQueue, true, deliverCallback, consumerTag -> { });
-            */
         }
         catch(Exception e){
-            System.out.println(e);
+            System.out.println("Client setUp : "+e);
             System.exit(0);
         }
     }
     
     
     /**
-     * This method is used to close the connection (channel also)
+     * This method is used to close the channel and/or the connection
      * @throws Exception 
      */
     @Override
@@ -161,8 +133,8 @@ public class Client implements AutoCloseable{
     
     
     /**
-     * 
-     * @param dc
+     * This method is used to set the callback and start consuming messages from the client queue.
+     * @param dc the deliverCallback to execute after consuming a message
      * @throws java.io.IOException
      */
     public void startConsuming(DeliverCallback dc) throws IOException{

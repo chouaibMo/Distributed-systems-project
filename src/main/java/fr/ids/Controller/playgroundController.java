@@ -131,6 +131,7 @@ public class playgroundController implements Initializable{
                 Message msg = SerializationUtils.deserialize(delivery.getBody());
                     updateLayouts(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), msg.getDirection());
                     Platform.runLater( () -> {
+                        updateImage(msg.getPlayerID(), msg.getDirection());
                         updateName(msg.getPlayerID(), msg.getName());
                     });
                 System.out.println("[ FROM "+client.getNodeQueue()+" ] --> "+msg);

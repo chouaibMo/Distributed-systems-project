@@ -8,18 +8,23 @@ package fr.ids.Network;
 import java.io.Serializable;
 
 /**
- *
+ * This class is a wrapper of Message.
+ * It is used only for communications in the server side
  * @author chouaib
  */
 public class NodeMessage implements Serializable {
     
     private int sourceNode;
-    private String destination;
     private Message message;
     
-    public NodeMessage(int src, String dest, Message msg){
+    
+    /**
+     * Create a NodeMessage instance.
+     * @param src id of the source node
+     * @param msg the message to send
+     */
+    public NodeMessage(int src, Message msg){
         this.sourceNode = src;
-        this.destination = dest;
         this.message = msg;
     }
 
@@ -29,14 +34,6 @@ public class NodeMessage implements Serializable {
 
     public void setSourceNode(int sourceNode) {
         this.sourceNode = sourceNode;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     public Message getMessage() {
