@@ -69,6 +69,12 @@ public class Images {
         return img;
     }
     
+    /**
+     * return a timeline that plays an explosion gif image
+     * @param player ImageView of the player who caused the explosion
+     * @param gif ImageView of the explosion
+     * @return the timeline
+     */
     public static Timeline explosionTimeline(ImageView player, ImageView gif){
                 
         Timeline timeline = new Timeline(

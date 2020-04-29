@@ -14,8 +14,6 @@ import fr.ids.Network.Queues;
         
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -101,20 +99,23 @@ public class playgroundController implements Initializable{
         
         init(client.getID());
         
+        //Callback launched when a message is consumed 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            Message msg = SerializationUtils.deserialize(delivery.getBody());
-            if(msg.getRequest().equals("OUT")){
-                setVisible(msg.getPlayerID(), false);
+            Message msg = SerializationUtils.deserialize(delivery.getBody());             //deserialization of the message
+            if(msg.getRequest().equals("OUT")){                                           // if a player is leaving, remove it's name
+                setVisible(msg.getPlayerID(), false);                                     // and it's ImageView
                 Platform.runLater( () -> {  updateName(msg.getPlayerID(), " - ");  });
             }
             else{
                 Platform.runLater( () -> {  
-                    updateLayouts(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), msg.getDirection());
-                    updateName(msg.getPlayerID(), msg.getName());  });
+                    updateLayouts(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), msg.getDirection());   //update player's layouts
+                    updateName(msg.getPlayerID(), msg.getName());  });                                          // update it's name
             }
         };
-        
+        //start consuming according to the callback above :
         client.startConsuming(deliverCallback);
+        
+        //Send a message to notify the node that the player joined the game
         Message m = new Message(client.getID(), client.getClientQueue(), this.name, this.x, this.y,"DOWN", "IN");
         client.sendMessage(m);
     }
@@ -220,6 +221,7 @@ public class playgroundController implements Initializable{
                     y--;
                 }
                 break;  
+            
         }
         Message m = new Message(id, queue, name, x, y, direction, "DEFAULT");             // finally, send a message to the node(manager)
         client.sendMessage(m);                                                            // to notify him
