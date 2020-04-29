@@ -17,25 +17,25 @@ import javafx.util.Duration;
  */
 public class Images {
             
-    public static Image P1_UP = new Image("/fr/ids/Resources/Images/1/p1-U.png");
-    public static Image P1_DOWN = new Image("/fr/ids/Resources/Images/1/p1-D.png");
-    public static Image P1_RIGHT= new Image("/fr/ids/Resources/Images/1/p1-R.png");
-    public static Image P1_LEFT = new Image("/fr/ids/Resources/Images/1/p1-L.png");
+    public static Image P1_UP = new Image("/fr/ids/Resources/Images/p1-U.png");
+    public static Image P1_DOWN = new Image("/fr/ids/Resources/Images/p1-D.png");
+    public static Image P1_RIGHT= new Image("/fr/ids/Resources/Images/p1-R.png");
+    public static Image P1_LEFT = new Image("/fr/ids/Resources/Images/p1-L.png");
     
-    public static Image P2_UP = new Image("/fr/ids/Resources/Images/2/p2-U.png");
-    public static Image P2_DOWN = new Image("/fr/ids/Resources/Images/2/p2-D.png");
-    public static Image P2_RIGHT= new Image("/fr/ids/Resources/Images/2/p2-R.png");
-    public static Image P2_LEFT = new Image("/fr/ids/Resources/Images/2/p2-L.png");
+    public static Image P2_UP = new Image("/fr/ids/Resources/Images/p2-U.png");
+    public static Image P2_DOWN = new Image("/fr/ids/Resources/Images/p2-D.png");
+    public static Image P2_RIGHT= new Image("/fr/ids/Resources/Images/p2-R.png");
+    public static Image P2_LEFT = new Image("/fr/ids/Resources/Images/p2-L.png");
     
-    public static Image P3_UP = new Image("/fr/ids/Resources/Images/3/p3-U.png");
-    public static Image P3_DOWN = new Image("/fr/ids/Resources/Images/3/p3-D.png");
-    public static Image P3_RIGHT= new Image("/fr/ids/Resources/Images/3/p3-R.png");
-    public static Image P3_LEFT = new Image("/fr/ids/Resources/Images/3/p3-L.png");
+    public static Image P3_UP = new Image("/fr/ids/Resources/Images/p3-U.png");
+    public static Image P3_DOWN = new Image("/fr/ids/Resources/Images/p3-D.png");
+    public static Image P3_RIGHT= new Image("/fr/ids/Resources/Images/p3-R.png");
+    public static Image P3_LEFT = new Image("/fr/ids/Resources/Images/p3-L.png");
     
-    public static Image P4_UP = new Image("/fr/ids/Resources/Images/4/p4-U.png");
-    public static Image P4_DOWN = new Image("/fr/ids/Resources/Images/4/p4-D.png");
-    public static Image P4_RIGHT= new Image("/fr/ids/Resources/Images/4/p4-R.png");
-    public static Image P4_LEFT = new Image("/fr/ids/Resources/Images/4/p4-L.png");
+    public static Image P4_UP = new Image("/fr/ids/Resources/Images/p4-U.png");
+    public static Image P4_DOWN = new Image("/fr/ids/Resources/Images/p4-D.png");
+    public static Image P4_RIGHT= new Image("/fr/ids/Resources/Images/p4-R.png");
+    public static Image P4_LEFT = new Image("/fr/ids/Resources/Images/p4-L.png");
     
     
     public static Image getImage(int id, String move){
@@ -54,7 +54,7 @@ public class Images {
                 if("LEFT".equals(move))  img = P2_LEFT;
                 break;
             case 3:
-                if("UP".equals(move))  img = P3_UP;
+                if("UP".equals(move))    img = P3_UP;
                 if("DOWN".equals(move))  img = P3_DOWN;
                 if("RIGHT".equals(move)) img = P3_RIGHT;
                 if("LEFT".equals(move))  img = P3_LEFT;    

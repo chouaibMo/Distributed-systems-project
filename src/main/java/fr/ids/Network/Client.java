@@ -88,10 +88,15 @@ public class Client implements AutoCloseable{
      * This Method is used to send a message to the node managing the 
      * zone where the player is.
      * @param message the Message object to send 
-     * @throws Exception 
      */
-    public void sendMessage(Message message) throws Exception {
-        this.channel.basicPublish("", this.nodeQueue, null, SerializationUtils.serialize(message));
+    public void sendMessage(Message message) {
+        try{
+            this.channel.basicPublish("", this.nodeQueue, null, SerializationUtils.serialize(message));
+        }
+        catch(IOException e){
+            System.out.println("Client SendMessage : "+e);
+        }
+        
     }   
     
    
@@ -118,6 +123,14 @@ public class Client implements AutoCloseable{
         }
     }
     
+    /**
+     * This method is used to check whether the connection and the channel are open
+     * @return true if the connection and the channel are open, false otherwise
+     */
+    public boolean isOpen(){
+        return   connection != null  && channel != null 
+              && connection.isOpen() && channel.isOpen();
+    }
     
     /**
      * This method is used to close the channel and/or the connection
@@ -125,9 +138,9 @@ public class Client implements AutoCloseable{
      */
     @Override
     public void close() throws Exception {
-        if(channel != null)
+        if(channel != null && channel.isOpen())
             channel.close();
-        if(connection != null)
+        if(connection != null && connection.isOpen())
             connection.close();
     }
     
@@ -135,9 +148,8 @@ public class Client implements AutoCloseable{
     /**
      * This method is used to set the callback and start consuming messages from the client queue.
      * @param dc the deliverCallback to execute after consuming a message
-     * @throws java.io.IOException
      */
-    public void startConsuming(DeliverCallback dc) throws IOException{
+    public void startConsuming(DeliverCallback dc) {
         try{
             channel.basicConsume(this.clientQueue, true, dc, consumerTag -> { });
         }

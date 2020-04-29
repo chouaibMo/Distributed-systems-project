@@ -38,7 +38,7 @@ public class Map {
                 
     }
     
-        /**
+   /**
      * This method is used to check if a movement will change the zone of the player
      * @param x integer : x coordinate
      * @param y integer : y coordinate

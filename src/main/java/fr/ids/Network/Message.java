@@ -13,30 +13,14 @@ import java.io.Serializable;
  */
 public class Message implements Serializable{
   
-    private int playerID;
-    private int playerX;
-    private int playerY;
-    private String name;
-    private String senderQueue;
-    private String direction;
+    private int playerID;           // player id
+    private int playerX;            // x coordinate of the player
+    private int playerY;            // x coordinate of the player
+    private String name;            // player name
+    private String senderQueue;     // queue name of the player who sent the message
+    private String direction;       // direction of the move performed by the player
+    private String request;         // request of the message ( IN - OUT - DEFAULT )
     
-    
-    /**
-     * Message contructor
-     * @param id an integer : player ID
-     * @param queue a String : player Queue
-     * @param name a String : player name 
-     * @param x an integer : x coordinate
-     * @param y an integer : y coordinate
-     */
-  /*  public Message(int id, String queue, String name, int x, int y){ 
-        this.playerID = id;
-        this.senderQueue = queue;
-        this.playerX = x;
-        this.playerY = y;
-        this.name = name;
-    }
-    */
         
     /**
      * Create a new Message instance
@@ -46,11 +30,13 @@ public class Message implements Serializable{
      * @param name the player name
      * @param y the y position of the player
      * @param direction the movement performed by the player
+     * @param request the request of the sender 
      */
-    public Message(int id, String queue, String name, int x, int y, String direction){ 
+    public Message(int id, String queue, String name, int x, int y, String direction, String request){ 
         this.playerID = id;
         this.senderQueue = queue;
         this.name = name;
+        this.request = request;
         this.direction = direction;
         this.playerX = x;
         this.playerY = y;
@@ -103,9 +89,17 @@ public class Message implements Serializable{
     public int getPlayerY() {
         return playerY;
     }
+    
+    public String getRequest() {
+        return request;
+    }
+    
+    public void setRequest(String req) {
+        request = req;
+    }
    
     @Override
     public String toString(){
-        return "Player no."+this.playerID+" : "+this.direction+" ("+this.playerX+";"+this.playerY+")";
+        return "Player no."+this.playerID+" : "+this.direction+" ("+this.playerX+";"+this.playerY+") "+this.request;
     }
 }

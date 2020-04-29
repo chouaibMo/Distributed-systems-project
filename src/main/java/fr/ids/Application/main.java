@@ -6,6 +6,7 @@
 package fr.ids.Application;
 
 import fr.ids.Network.Client;
+import fr.ids.Network.Message;
 import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -51,8 +52,11 @@ public class main extends Application {
         
         @Override
         public void stop() throws Exception{
-            if(Client.getClient() != null)
+            if(Client.getClient().isOpen()){
+                Message m = new Message(Client.getClient().getID(), Client.getClient().getClientQueue(), "", -1, -1, "", "OUT");
+                Client.getClient().sendMessage(m);
                 Client.getClient().close();
+            }
         }
         
 	public static void main(String[] args) {
