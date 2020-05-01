@@ -15,6 +15,7 @@ import fr.ids.Network.Queues;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +31,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -53,6 +55,8 @@ public class playgroundController implements Initializable{
     @FXML
     private AnchorPane helpPane;
     @FXML
+    private AnchorPane mapPane;
+    @FXML
     private Button helpCloseBtn;
     @FXML
     private Label name1;
@@ -62,7 +66,8 @@ public class playgroundController implements Initializable{
     private Label name3;
     @FXML
     private Label name4;
-    
+    @FXML
+    private Label helloLabel;  
     @FXML
     private ImageView player1;
     @FXML
@@ -86,6 +91,7 @@ public class playgroundController implements Initializable{
     
     // REF. TO CLIENT PLAYER : 
     private ImageView player;
+
 
 
    @Override
@@ -118,11 +124,19 @@ public class playgroundController implements Initializable{
         //Send a message to notify the node that the player joined the game
         Message m = new Message(client.getID(), client.getClientQueue(), this.name, this.x, this.y,"DOWN", "IN");
         client.sendMessage(m);
+        
     }
 
     @FXML
     private void keyPressed(KeyEvent event) throws Exception {
-        makeMovement(player,event.getCode().toString());  
+        String key = event.getCode().toString();
+        if( "UP".equals(key) || "DOWN".equals(key) || "RIGHT".equals(key) || "LEFT".equals(key))
+            makeMovement(player,key);  
+        else if("SPACE".equals(key)){
+            //Images.timeline(player, helloLabel).play();
+            Images.timeline(player, Images.getLabel(mapPane)).play();
+        }
+           
     }
 
     @FXML
