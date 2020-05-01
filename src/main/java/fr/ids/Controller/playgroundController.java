@@ -133,8 +133,7 @@ public class playgroundController implements Initializable{
         if( "UP".equals(key) || "DOWN".equals(key) || "RIGHT".equals(key) || "LEFT".equals(key))
             makeMovement(player,key);  
         else if("SPACE".equals(key)){
-            //Images.timeline(player, helloLabel).play();
-            Images.timeline(player, Images.getLabel(mapPane)).play();
+            Images.timeline(player, Images.getLabel(mapPane), mapPane).play();
         }
            
     }

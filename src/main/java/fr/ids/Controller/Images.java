@@ -87,16 +87,17 @@ public class Images {
      * @param gif ImageView of the explosion
      * @return the timeline
      */
-    public static Timeline timeline(ImageView player, Label gif){
+    public static Timeline timeline(ImageView player, Label label, AnchorPane p){
                 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, e -> { 
-                    gif.setVisible(true);
-                    gif.setLayoutX(player.getLayoutX());
-                    gif.setLayoutY(player.getLayoutY()-40);
+                    label.setVisible(true);
+                    label.setLayoutX(player.getLayoutX());
+                    label.setLayoutY(player.getLayoutY()-40);
                 }),
                 new KeyFrame(Duration.seconds(1), e -> { 
-                    gif.setVisible(false);
+                    label.setVisible(false);
+                    p.getChildren().remove(label);
                 })
         );
         
