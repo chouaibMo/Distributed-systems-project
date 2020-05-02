@@ -15,7 +15,6 @@ import fr.ids.Network.Queues;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +30,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -109,15 +107,23 @@ public class playgroundController implements Initializable{
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             Message msg = SerializationUtils.deserialize(delivery.getBody());             //deserialization of the message
             if(msg.getRequest().equals("OUT")){                                           // if a player is leaving, remove it's name
-                setVisible(msg.getPlayerID(), false);                                     // and it's ImageView
+                getPlayer(msg.getPlayerID()).setVisible(false);
+                Map.setFree(msg.getPlayerID());
                 Platform.runLater( () -> {  updateName(msg.getPlayerID(), " - ");  });
             }
-            else{
-                Platform.runLater( () -> {  
+            if(msg.getRequest().equals("HELLO")){
+                Platform.runLater( () -> { 
+                    Images.timeline( getPlayer(msg.getPlayerID()), Images.getLabel(mapPane), mapPane ).play();
+                 });
+            }
+            if(msg.getRequest().equals("DEFAULT") || msg.getRequest().equals("IN")){
+                Platform.runLater( () -> { 
+                    Map.updateMap(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), 2);
                     updateLayouts(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), msg.getDirection());   //update player's layouts
                     updateName(msg.getPlayerID(), msg.getName());  });                                          // update it's name
             }
         };
+        
         //start consuming according to the callback above :
         client.startConsuming(deliverCallback);
         
@@ -125,6 +131,7 @@ public class playgroundController implements Initializable{
         Message m = new Message(client.getID(), client.getClientQueue(), this.name, this.x, this.y,"DOWN", "IN");
         client.sendMessage(m);
         
+        Map.updateMap(client.getID(), this.x, this.y, 2);
     }
 
     @FXML
@@ -133,7 +140,11 @@ public class playgroundController implements Initializable{
         if( "UP".equals(key) || "DOWN".equals(key) || "RIGHT".equals(key) || "LEFT".equals(key))
             makeMovement(player,key);  
         else if("SPACE".equals(key)){
-            Images.timeline(player, Images.getLabel(mapPane), mapPane).play();
+            if(Map.hasNeighbour(this.x, this.y)){
+                Images.timeline(player, Images.getLabel(mapPane), mapPane).play();
+                Message m = new Message(client.getID(), client.getClientQueue(), this.name, this.x, this.y,"", "HELLO");
+                client.sendMessage(m);
+            }
         }
            
     }
@@ -193,6 +204,8 @@ public class playgroundController implements Initializable{
         int id = client.getID();                                                          //player id
         String queue = client.getClientQueue();                                           //client queue
         
+        //Map.setValue(x, y, 0);
+        
         switch(direction){
             case "UP":
                 player.setImage(Images.getImage(id, direction));                              //change the player image 
@@ -234,8 +247,8 @@ public class playgroundController implements Initializable{
                     y--;
                 }
                 break;  
-            
         }
+        Map.updateMap(client.getID(), this.x, this.y, 2);
         Message m = new Message(id, queue, name, x, y, direction, "DEFAULT");             // finally, send a message to the node(manager)
         client.sendMessage(m);                                                            // to notify him
     }
@@ -332,25 +345,26 @@ public class playgroundController implements Initializable{
     
     
     /**
-     * This method is used to change the visibility of an ImageView according to a player id
+     * This method is used to get the ImageView of a player according to it's id
      * @param id the id of the player
-     * @param b a boolean value
      */
-    public void setVisible(int id, Boolean b){
+    public ImageView getPlayer(int id){
+        ImageView pl = null;
         switch(id){
             case 1:
-                player1.setVisible(b);
+                pl = player1;
                 break;
             case 2:
-                player2.setVisible(b);
+                pl = player2;
                 break;
             case 3:
-                player3.setVisible(b);
+                pl = player3;
                 break;
             case 4:
-                player4.setVisible(b);
+                pl = player4;
                 break;
         }
+        return pl;
     }
     
     

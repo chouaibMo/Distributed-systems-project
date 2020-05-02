@@ -57,6 +57,8 @@ public class Node {
     /**
      * This message to send les list of last message of each client, to the client that
      * just joined the party.
+     * @param clientQueue
+     * @throws IOException
      */
     public void sendLastMessagesList(String clientQueue) throws IOException{
         for(int i=0; i<4; i++){

@@ -82,13 +82,13 @@ public class Images {
     }
     
     /**
-     * return a timeline that plays an explosion gif image
-     * @param player ImageView of the player who caused the explosion
-     * @param gif ImageView of the explosion
+     * return a timeline that shows a label
+     * @param player 
+     * @param label the to show
+     * @param p the pane where the label will be added
      * @return the timeline
      */
     public static Timeline timeline(ImageView player, Label label, AnchorPane p){
-                
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, e -> { 
                     label.setVisible(true);
