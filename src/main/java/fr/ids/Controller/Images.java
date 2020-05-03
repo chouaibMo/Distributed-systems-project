@@ -83,8 +83,8 @@ public class Images {
     
     /**
      * return a timeline that shows a label
-     * @param player 
-     * @param label the to show
+     * @param player the player who says hello
+     * @param label the label to show
      * @param p the pane where the label will be added
      * @return the timeline
      */
@@ -104,6 +104,11 @@ public class Images {
         return timeline;
     }
     
+    /**
+     * Return a label that represents the Hello message
+     * @param p the AnchorPane where the label will be added
+     * @return the label
+     */
     public static Label getLabel(AnchorPane p){
         Label l = new Label("   HELLO");
         l.setContentDisplay(ContentDisplay.CENTER);

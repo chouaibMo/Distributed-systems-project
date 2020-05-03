@@ -18,7 +18,7 @@ public class Node {
 
     private Connection connection;
     private Channel channel;
-    private final int nodeID;
+    private final int nodeID;                       // node identifiant
     private ArrayList<String> clientQueues;         //list of queue names of clients managed by this node
     private String privateQueue;                    // private queue name of the node
     private String publicQueue;                     // public  queue name of the node
@@ -173,6 +173,11 @@ public class Node {
     
     
     public static void main(String[] args) throws Exception {
+        if(args.length < 1 || Integer.parseInt(args[0]) < 0 || Integer.parseInt(args[0]) > 4){
+            System.out.println("usage : java -jar NODE.jar <NodeID> ");
+            System.exit(0);
+        }
+        
         Node node1 = new Node(Integer.parseInt(args[0]));
         System.out.println("Node "+args[0]+" ready ...");
     }

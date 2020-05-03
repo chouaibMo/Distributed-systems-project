@@ -10,10 +10,21 @@ package fr.ids.Controller;
  * @author chouaib
  */
 public class Map {
-    
+    /**
+     * coordinates x of all the players
+     */
     static int[] posX = new int[4];
+    
+    /**
+     * coordinates x of all the players
+     */
     static int[] posY = new int[4];
     
+    /**
+     * The map matrix :  0 == free cell
+     *                   1 == a wall
+     *                   2 == a player
+     */
     static byte[][] map = {
                       {0,0,0,1,1,0,0,0,0,0,0,0},
                       {0,0,0,1,1,1,1,0,0,0,0,0},

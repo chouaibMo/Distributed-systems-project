@@ -89,15 +89,14 @@ public class playgroundController implements Initializable{
     
     // REF. TO CLIENT PLAYER : 
     private ImageView player;
-
-
+    
 
    @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        this.client = Client.getClient();
+        this.client = Client.getClient();              
         this.client.setID(main.getArgs());
         this.client.setUsername(homeController.name);
-        this.client.setUp();
+        this.client.setUp();                                     // set up client's connection, channel and queues
         
         this.name = homeController.name;
         
@@ -107,18 +106,18 @@ public class playgroundController implements Initializable{
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             Message msg = SerializationUtils.deserialize(delivery.getBody());             //deserialization of the message
             if(msg.getRequest().equals("OUT")){                                           // if a player is leaving, remove it's name
-                getPlayer(msg.getPlayerID()).setVisible(false);
-                Map.setFree(msg.getPlayerID());
+                getPlayer(msg.getPlayerID()).setVisible(false);                           // remove this player's image
+                Map.setFree(msg.getPlayerID());                                           // remove him from the map matrix
                 Platform.runLater( () -> {  updateName(msg.getPlayerID(), " - ");  });
             }
-            if(msg.getRequest().equals("HELLO")){
+            if(msg.getRequest().equals("HELLO")){                                                                 // if it's a hello message
                 Platform.runLater( () -> { 
-                    Images.timeline( getPlayer(msg.getPlayerID()), Images.getLabel(mapPane), mapPane ).play();
+                    Images.timeline( getPlayer(msg.getPlayerID()), Images.getLabel(mapPane), mapPane ).play();    // then play the timeline
                  });
             }
             if(msg.getRequest().equals("DEFAULT") || msg.getRequest().equals("IN")){
                 Platform.runLater( () -> { 
-                    Map.updateMap(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), 2);
+                    Map.updateMap(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), 2);                    //update the map matrix
                     updateLayouts(msg.getPlayerID(), msg.getPlayerX(), msg.getPlayerY(), msg.getDirection());   //update player's layouts
                     updateName(msg.getPlayerID(), msg.getName());  });                                          // update it's name
             }
@@ -131,24 +130,35 @@ public class playgroundController implements Initializable{
         Message m = new Message(client.getID(), client.getClientQueue(), this.name, this.x, this.y,"DOWN", "IN");
         client.sendMessage(m);
         
+        //Update the map matrix with the position of the player
         Map.updateMap(client.getID(), this.x, this.y, 2);
     }
 
+    /**
+     * This handler is executed when a key is pressed
+     * @param event a KeyEvent
+     * @throws Exception 
+     */
     @FXML
     private void keyPressed(KeyEvent event) throws Exception {
         String key = event.getCode().toString();
-        if( "UP".equals(key) || "DOWN".equals(key) || "RIGHT".equals(key) || "LEFT".equals(key))
-            makeMovement(player,key);  
+        if( "UP".equals(key) || "DOWN".equals(key) || "RIGHT".equals(key) || "LEFT".equals(key))   //if the key is a keybord arrow
+            makeMovement(player,key);                                                              // execute makeMovement method
         else if("SPACE".equals(key)){
-            if(Map.hasNeighbour(this.x, this.y)){
-                Images.timeline(player, Images.getLabel(mapPane), mapPane).play();
+            if(Map.hasNeighbour(this.x, this.y)){                                                //if the player has a neighbour
+                Images.timeline(player, Images.getLabel(mapPane), mapPane).play();              // player the timeline then send a hello msg
                 Message m = new Message(client.getID(), client.getClientQueue(), this.name, this.x, this.y,"", "HELLO");
                 client.sendMessage(m);
             }
         }
            
     }
-
+    
+    /**
+     * This handler is executed when the button quit is pressed
+     * @param e an ActionEvent
+     * @throws Exception 
+     */
     @FXML
     private void quitOnAction(ActionEvent e) throws Exception {
         media.playClip();                        //
@@ -174,6 +184,10 @@ public class playgroundController implements Initializable{
         
     }
 
+    /**
+     * this handler is executed when the help button is pressed
+     * @param event an ActionEvent
+     */
     @FXML
     private void helpOnAction(ActionEvent event) {
         media.playClip();                       //play a clic sound
@@ -183,7 +197,11 @@ public class playgroundController implements Initializable{
         helpPane.setVisible(true);             //show the helpPane
     }
     
-
+    
+    /**
+     * This handler is executed when the close button is pressed
+     * @param event an ActionEvent
+     */
     @FXML
     private void helpCloseOnAction(ActionEvent event) {
         media.playClip();                    //player a clic sound
@@ -192,7 +210,7 @@ public class playgroundController implements Initializable{
     }
      
     /**
-     * 
+     * This method is used when the player try to make a mouvement 
      * @param player an ImageView
      * @param direction a String : up, down, left or right
      * @throws Exception 
@@ -203,8 +221,6 @@ public class playgroundController implements Initializable{
         
         int id = client.getID();                                                          //player id
         String queue = client.getClientQueue();                                           //client queue
-        
-        //Map.setValue(x, y, 0);
         
         switch(direction){
             case "UP":

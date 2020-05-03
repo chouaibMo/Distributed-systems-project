@@ -27,7 +27,6 @@ public class main extends Application {
                 primaryStage = stage;
 		try {   
                     Parent root = FXMLLoader.load(getClass().getResource("/fr/ids/Vue/home.fxml"));
-                    //Parent root = FXMLLoader.load(getClass().getResource("/fr/ids/Vue/playground.fxml"));
                     Scene scene = new Scene(root);
                     scene.getStylesheets().add(getClass().getResource("/fr/ids/Vue/style.css").toExternalForm());
                     Font.loadFont(getClass().getResourceAsStream("/fr/ids/Resources/Fonts/EVER_LOOSER_UNTEXTURED.ttf"), 14);
@@ -50,6 +49,10 @@ public class main extends Application {
             return ID;
         }
         
+        /**
+         * Executed if the window is aborted
+         * @throws Exception 
+         */
         @Override
         public void stop() throws Exception{
             if(Client.getClient().isOpen()){
