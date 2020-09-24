@@ -41,8 +41,8 @@ $ java -jar target/NODE.jar 1
 ```   
 
 ### Step 4 : Client GUI  
-Before starting the client, make sure that all nodes are started successfuly.
-Please make sure to use a valid (1 to 4). It should'nt be used by another player, this eventuality is not handled by this version.
+Before starting the client, make sure that all nodes are started successfuly.   
+Please make sure to use a valid client id (from 1 to 4). It should'nt be used by another player, this eventuality is not handled by this version.
 ```sh
 $ java -jar target/GUI.jar 1
 ```  
