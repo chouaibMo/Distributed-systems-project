@@ -1,4 +1,4 @@
- <h1 align=center> IDS Final Project</h1>
+ <h1 align=center> Distributed JavaFx Game</h1>
 
 <img src="screenshot.png">
 
